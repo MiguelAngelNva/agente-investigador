@@ -1,0 +1,45 @@
+# --- Python & Entorno Virtual ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+build/
+dist/
+*.egg-info/
+
+# --- Configuración y Secretos (CRÍTICO) ---
+.env
+.env.local
+.env.development
+.env.production
+*.json
+!app/services/agents/prompts/*.yaml  # Permitir los prompts pero no las llaves
+
+# --- Google Cloud & Firebase ---
+# Credenciales de Service Account 
+credentials.json
+service-account-file.json
+.gcloudignore
+.firebase/
+firestore-debug.log
+
+# --- Bases de Datos Locales ---
+# Si usas SQLite para pruebas rápidas en /infrastructure/sql
+*.sqlite3
+*.db
+*.db-journal
+
+# --- IDEs & Editores ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# --- Logs y Temporales ---
+*.log
+logs/
+temp/
+tmp/
