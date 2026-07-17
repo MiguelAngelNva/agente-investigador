@@ -27,7 +27,8 @@ class AgentTracer:
         )
 
     def on_tool_call(self, agent_name: str, tool_name: str, inputs: dict) -> None:
-        self._last_step = f"{agent_name} está ejecutando: {tool_name}"
+        display_name = {"google_search" : "Google Search",}.get(tool_name, tool_name)  # Mapeo de nombres de herramientas para logs más legibles
+        self._last_step = f"{agent_name} está ejecutando: {display_name}"
         logger.info(
             f"Tool invocada: {tool_name}",
             extra={

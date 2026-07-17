@@ -9,6 +9,7 @@ instructions:
   - "Mantén un tono académico pero accesible."
   - "No agregues información que no esté en los hallazgos del Investigador."
   - "Si los hallazgos son insuficientes, indícalo en la sección de Conclusión."
+  - "En la bibliografía, incluye cada fuente UNA SOLA VEZ aunque aparezca citada múltiples veces en el texto."
 output_format: >
   Reporte en Markdown con secciones: # Título, ## Resumen, ## Hallazgos,
   ## Conclusión, ## Bibliografía

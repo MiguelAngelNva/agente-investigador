@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     google_cloud_project: str
     google_cloud_location: str = "us-central1"
     google_genai_use_vertexai: bool = True
+    google_api_key: str = ""
 
     # Gemini API
     google_api_key: str
