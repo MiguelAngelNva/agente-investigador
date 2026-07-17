@@ -8,6 +8,10 @@ class Settings(BaseSettings):
     google_cloud_location: str = "us-central1"
     google_genai_use_vertexai: bool = True
 
+    # Gemini API
+    google_api_key: str
+    ia_model: str = "gemini-2.5-flash-lite"
+    
     # App
     app_name: str = "Agente Investigador"
     debug: bool = False

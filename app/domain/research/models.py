@@ -42,6 +42,7 @@ class ResearchSession(BaseModel):
     status: ResearchStatus = ResearchStatus.PENDING
     last_step: str = "Inicializando..."
     report: Optional[ResearchReport] = None
+    report_markdown: Optional[str] = None
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc)
     )
