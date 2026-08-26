@@ -11,12 +11,14 @@ class ResearchStatus(str, Enum):
     FAILED = "FAILED"
 
 
+# TODO: Fase 3 — este modelo entra en el pipeline activo
 class ResearchSource(BaseModel):
     url: str
     title: str
     relevance_score: float = Field(ge=0.0, le=1.0)
 
 
+# TODO: Fase 3 — este modelo entra en el pipeline activo
 class ResearchReport(BaseModel):
     """Esquema canónico de un reporte — lo que el sistema DEBE producir."""
     title: str
@@ -28,6 +30,7 @@ class ResearchReport(BaseModel):
     )
 
 
+# TODO: Fase 3 — este modelo entra en el pipeline activo
 class Message(BaseModel):
     session_id: str
     role: str  # "user" | "investigator" | "editor"

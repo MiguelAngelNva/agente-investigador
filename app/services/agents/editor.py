@@ -1,8 +1,7 @@
-# Agente que refina / estructura resultados
 import yaml
-import os
 from pathlib import Path
 from google.adk.agents import LlmAgent
+from app.core.config import get_settings
 from app.core.logging import get_logger
 
 logger = get_logger("agents.editor")
@@ -31,9 +30,9 @@ def build_editor() -> LlmAgent:
 
     agent = LlmAgent(
         name="editor_academico",
-        model=os.getenv("IA_MODEL"),
+        model=get_settings().ia_model,
         instruction=_load_prompt(),
-        tools=[],                          # el Editor solo redacta, no busca
+        tools=[],
         output_key="reporte_final",
     )
 

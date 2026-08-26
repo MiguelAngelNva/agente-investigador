@@ -1,3 +1,4 @@
+# TODO: Fase 3 — este módulo será usado para limpiar outputs del Editor
 # Limpieza y formateo de texto (salidas más consistentes)
 import re
 

@@ -1,15 +1,12 @@
-# Definición del agente investigador
-
 import yaml
-import os
 from pathlib import Path
 from google.adk.agents import LlmAgent
 from app.services.agents.tools.search.search_web import search_web_tool
+from app.core.config import get_settings
 from app.core.logging import get_logger
 
 logger = get_logger("agents.investigator")
 
-# Carga el prompt desde YAML — un solo lugar para cambiar el comportamiento
 _PROMPT_PATH = Path(__file__).parent / "prompts" / "investigator.yaml"
 
 
@@ -30,18 +27,14 @@ def _load_prompt() -> str:
 
 
 def build_investigator() -> LlmAgent:
-    """
-    Construye y devuelve el agente Investigador listo para usar.
-    Separar la construcción en una función permite testearlo de forma aislada.
-    """
     logger.info("Construyendo agente Investigador...")
 
     agent = LlmAgent(
         name="investigador_academico",
-        model=os.getenv("IA_MODEL"),
+        model=get_settings().ia_model,
         instruction=_load_prompt(),
         tools=[search_web_tool],
-        output_key="investigacion_resultado",  # clave donde guarda su output
+        output_key="investigacion_resultado",
     )
 
     logger.info("Agente Investigador listo")

@@ -52,6 +52,7 @@ class AgentTracer:
             }
         )
 
+    # TODO: Fase 2 — invocar desde agent_runner.py
     def on_thought(self, agent_name: str, thought: str) -> None:
         """Captura el Chain of Thought del LLM cuando ADK lo expone."""
         logger.debug(
@@ -76,6 +77,7 @@ class AgentTracer:
             }
         )
 
+    # TODO: Fase 2 — invocar desde agent_runner.py
     def on_error(self, agent_name: str, error: Exception) -> None:
         self._last_step = f"Error en {agent_name}: {type(error).__name__}"
         logger.error(
