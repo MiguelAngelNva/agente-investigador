@@ -1,13 +1,17 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from app.schemas.chat_request import StatusResponse
-from app.infrastructure.repositories.memory.session_repository import session_repository
+from app.core.dependencies import get_session_repository
+from app.domain.research.repository_base import ResearchSessionRepository
 
 router = APIRouter(prefix="/status", tags=["status"])
 
 
 @router.get("/{session_id}", response_model=StatusResponse)
-async def get_status(session_id: str):
-    session = await session_repository.get(session_id)
+async def get_status(
+    session_id: str,
+    repo: ResearchSessionRepository = Depends(get_session_repository),
+):
+    session = await repo.get(session_id)
 
     if session is None:
         raise HTTPException(status_code=404, detail="Sesión no encontrada")
