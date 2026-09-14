@@ -43,3 +43,6 @@ firestore-debug.log
 logs/
 temp/
 tmp/
+
+# --- Docker ---
+docker-compose.yml

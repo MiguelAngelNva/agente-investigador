@@ -1,7 +1,11 @@
 from app.domain.research.models import ResearchSession, ResearchStatus
-from app.domain.research.repository_base import ResearchSessionRepository
+from app.domain.research.repository_base import (
+    ResearchSessionRepository,
+    MessageRepository,
+)
 from app.infrastructure.repositories.observability.tracing import AgentTracer
 from app.application.research.services.agent_runner import run_team
+from app.application.research.services.history_manager import HistoryManager
 from app.core.logging import get_logger
 
 logger = get_logger("application.run_investigation")
@@ -11,12 +15,14 @@ async def run_investigation(
     query: str,
     session_id: str,
     repo: ResearchSessionRepository,
+    message_repo: MessageRepository,
 ) -> None:
     """
     Flujo completo: crea el registro de sesión, ejecuta el equipo de agentes
     actualizando el estado en tiempo real, y persiste el reporte final.
     """
     tracer = AgentTracer(session_id=session_id)
+    history_manager = HistoryManager(message_repo)
 
     session = ResearchSession(
         session_id=session_id,
@@ -24,6 +30,7 @@ async def run_investigation(
         last_step="Iniciando investigación...",
     )
     await repo.save(session)
+    await history_manager.save_turn(session_id, "user", query)
 
     async def on_progress(step: str) -> None:
         session.last_step = step
@@ -38,6 +45,7 @@ async def run_investigation(
         session.last_step = "Reporte generado correctamente"
         session.report_markdown = result_markdown
         await repo.save(session)
+        await history_manager.save_turn(session_id, "editor", result_markdown)
 
         logger.info(f"Investigación completada para session_id={session_id}")
 

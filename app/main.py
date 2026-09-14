@@ -1,10 +1,11 @@
 from contextlib import asynccontextmanager
+from urllib.parse import urlparse
 from fastapi import FastAPI
 from dotenv import load_dotenv
 
 load_dotenv()
 
-from app.api.v1 import chat, status
+from app.api.v1 import chat, status, history
 from app.core.config import get_settings
 from app.core.logging import get_logger
 # get_session_repository se registra automáticamente vía Depends() en los routers
@@ -17,6 +18,9 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     logger.info(f"Iniciando con db_backend={settings.db_backend}")
     logger.info(f"Modelo de agentes: {settings.ia_model}")
+    if settings.database_url:
+        parsed = urlparse(settings.database_url)
+        logger.info(f"Base de datos: {parsed.hostname}/{parsed.path.strip('/')}")
     yield
     logger.info("Apagando servidor")
 
@@ -25,6 +29,7 @@ app = FastAPI(title=settings.app_name, lifespan=lifespan)
 
 app.include_router(chat.router, prefix="/api/v1")
 app.include_router(status.router, prefix="/api/v1")
+app.include_router(history.router, prefix="/api/v1")
 
 
 @app.get("/")

@@ -2,8 +2,11 @@ from fastapi import APIRouter, BackgroundTasks, Depends
 import uuid
 from app.schemas.chat_request import ChatRequest, ChatResponse
 from app.application.research.run_investigation import run_investigation
-from app.core.dependencies import get_session_repository
-from app.domain.research.repository_base import ResearchSessionRepository
+from app.core.dependencies import get_session_repository, get_message_repository
+from app.domain.research.repository_base import (
+    ResearchSessionRepository,
+    MessageRepository,
+)
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 
@@ -13,6 +16,7 @@ async def chat(
     request: ChatRequest,
     background_tasks: BackgroundTasks,
     repo: ResearchSessionRepository = Depends(get_session_repository),
+    message_repo: MessageRepository = Depends(get_message_repository),
 ):
     session_id = request.session_id or str(uuid.uuid4())
 
@@ -21,6 +25,7 @@ async def chat(
         query=request.query,
         session_id=session_id,
         repo=repo,
+        message_repo=message_repo,
     )
 
     return ChatResponse(
